@@ -88,7 +88,7 @@ class MainWindow(QMainWindow):
 
         self.showChangeLogTimer = QTimer(self)
         self.showChangeLogTimer.setSingleShot(True)
-        # self.showChangeLogTimer.timeout.connect(self.showChangeLog)
+        self.showChangeLogTimer.timeout.connect(self.showChangeLog)
 
         self.checkHeadsetControlInstalledTimer = QTimer(self)
         self.checkHeadsetControlInstalledTimer.setSingleShot(True)
@@ -139,6 +139,9 @@ class MainWindow(QMainWindow):
 
         self.setMaximumWidth(self.sizeHint().width())
         self.setMinimumHeight(700)
+
+    def showChangeLog(self):
+        globalComponents.ChangeLogDialog().exec()
 
     def checkHeadsetControlInstalled(self):
         arctisSonarListener.checkHeadsetControlInstalled()

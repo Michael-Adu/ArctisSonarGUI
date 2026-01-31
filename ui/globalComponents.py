@@ -1,3 +1,6 @@
+import os
+
+import markdown
 from PyQt6.QtWidgets import QSlider
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
@@ -960,6 +963,34 @@ class AudioDeviceFrame(QWidget):
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
         painter.drawRoundedRect(self.rect(), 10, 10)
+
+class ChangeLogDialog(QDialog):
+    def __init__(self, *args, **kwargs):
+        super(ChangeLogDialog,self).__init__(*args, **kwargs)
+        self.setWindowTitle("SkyTestTool Update!")
+        changeLogFilePath = f"{arctis_sonar_globals.arctisSonarGUI.returnApplicationPath()}/changeLog.md"
+        if not os.path.isfile(changeLogFilePath):
+            self.close()
+
+        f = open(changeLogFilePath, 'r')
+        self.markdownText = markdown.markdown(f.read())
+
+        titleLabel = QLabel(f"ArctisSonarGUI v{arctis_sonar_globals.arctisSonarGUI.buildVersion}")
+        titleLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        titleLabel.setFont(arctisSonarFonts.header2)
+
+        self.changeLogText = QLabel(self.markdownText)
+        self.changeLogText.setContentsMargins(5,5,5,5)
+
+        scrollArea = QScrollArea(self)
+        scrollArea.setWidget(self.changeLogText)
+        scrollArea.setWidgetResizable(True)
+
+        layout = QVBoxLayout()
+        layout.addWidget(titleLabel, alignment=Qt.AlignmentFlag.AlignTop)
+        layout.addWidget(scrollArea, stretch=1)
+
+        self.setLayout(layout)
 
 def returnColourCode(color):
     """

@@ -32,11 +32,11 @@ class ArctisSonarGUI(QObject):
     def __init__(self, *args, **kwargs):
         super(ArctisSonarGUI, self).__init__(*args, **kwargs)
 
-        self.buildVersion = "0.0.1"
+        self.buildVersion = "0.1.2"
         self.buildDate = datetime.datetime(
             year=2026,
             month=1,
-            day=11
+            day=31
         )
 
         self.organisationName = "mngazy"
@@ -167,7 +167,7 @@ arctisSonarGUI = ArctisSonarGUI()
 
 class ArctisSonarListenerThread(QThread):
     onMixerChanged = pyqtSignal(int, int)
-    onSelectedDeviceChanged = pyqtSignal(ArctisDevice)
+    onSelectedDeviceChanged = pyqtSignal(object)
     onAvailableDevicesChanged = pyqtSignal(list)
 
     def __init__(self, *args, **kwargs):
